@@ -15,7 +15,7 @@ export type RootStackParams = {
     Call: undefined,
     Login: undefined,
     IncomingCall: undefined,
-    Calling: IContact,
+    Calling: undefined,
 }
 
 const Stack = createNativeStackNavigator<RootStackParams>();

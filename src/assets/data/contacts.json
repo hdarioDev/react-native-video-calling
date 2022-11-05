@@ -1,13 +1,13 @@
 [
   {
     "user_id": "1",
-    "user_name": "vadim",
-    "user_display_name": "Vadim Savin"
+    "user_name": "user1",
+    "user_display_name": "User 1 Vadim Savin"
   },
   {
     "user_id": "2",
-    "user_name": "alex",
-    "user_display_name": "Alex <3"
+    "user_name": "user2",
+    "user_display_name": "User 2"
   },
   {
     "user_id": "3",
@@ -16,13 +16,13 @@
   },
   {
     "user_id": "4",
-    "user_name": "jobs",
-    "user_display_name": "Steve Jobs"
+    "user_name": "dario",
+    "user_display_name": "Dario Humerez"
   },
   {
     "user_id": "5",
-    "user_name": "joe",
-    "user_display_name": "Joe"
+    "user_name": "yesica",
+    "user_display_name": "Yesica Zenteno"
   },
   {
     "user_id": "6",

@@ -1,15 +1,70 @@
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { Voximplant } from 'react-native-voximplant'
+import { APP_NAME, ACC_NAME } from '../utils/constants'
+import { useNavigation } from '@react-navigation/native'
 
 const LoginScreen = () => {
-    const onSignIn = () => {
-        console.log("log in");
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
 
+    const voximplant = Voximplant.getInstance()
+    const navigation = useNavigation<any>()
+    useEffect(() => {
+        const connect = async () => {
+            let clientState = await voximplant.getClientState();
+            console.log({ clientState });
+
+            if (clientState === Voximplant.ClientState.DISCONNECTED) {
+                await voximplant.connect();
+            }
+            else if (clientState === Voximplant.ClientState.LOGGED_IN) {
+                redirectHome()
+            }
+        }
+        connect()
+    }, [])
+
+    const onSignIn = async () => {
+        console.log("log in")
+        try {
+            const fqUsername = `${username}@${APP_NAME}.${ACC_NAME}.voximplant.com`
+            console.log("fqUsername ", fqUsername);
+
+            await voximplant.login(fqUsername, password)
+            redirectHome()
+        } catch (error) {
+            console.log("error", error);
+            Alert.alert(error.name, `Error code : ${error.code}`)
+            // Alert.alert(`Error : ${error}`)
+        }
+    }
+
+    const redirectHome = () => {
+        navigation.reset({
+            routes: [
+                {
+                    name: 'Contacts'
+                }
+            ]
+        })
     }
     return (
         <View style={styles.page}>
-            <TextInput placeholder="username" style={styles.input} />
-            <TextInput placeholder="password" style={styles.input} />
+            <TextInput
+                placeholder="username"
+                style={styles.input}
+                value={username}
+                autoCapitalize="none"
+                onChangeText={setUsername}
+            />
+            <TextInput
+                placeholder="password"
+                style={styles.input}
+                value={password}
+                autoCapitalize="none"
+                onChangeText={setPassword}
+            />
             <TouchableOpacity style={styles.button} onPress={onSignIn} activeOpacity={0.7}>
                 <Text style={styles.textButton}>Sign In</Text>
             </TouchableOpacity>

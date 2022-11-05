@@ -1,6 +1,7 @@
 import { FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
+import { Voximplant } from 'react-native-voximplant'
 
 import dummyContacts from '../assets/data/contacts.json'
 import { IContact } from '../interfaces';
@@ -9,7 +10,7 @@ const ContactsScreens = () => {
 
     const [searchTerm, setSearchTerm] = useState('')
     const [filterContatcs, setFilterContatcs] = useState(dummyContacts)
-
+    const voximplant = Voximplant.getInstance()
     const navigation = useNavigation<any>()
 
     useEffect(() => {
@@ -25,6 +26,16 @@ const ContactsScreens = () => {
         console.log(user);
         navigation.navigate('Calling', user)
     }
+
+    useEffect(() => {
+        voximplant.on(Voximplant.ClientEvents.IncomingCall, (incomingCallEvent: any) => {
+            navigation.navigate('IncomingCall', { call: incomingCallEvent.call })
+        })
+
+        return () => {
+            voximplant.off(Voximplant.ClientEvents.IncomingCall)
+        }
+    }, [])
 
     return (
         <View style={styles.page}>

@@ -7,7 +7,7 @@ const CallScreen = () => {
         <View style={styles.page}>
             <View style={styles.cameraPreview}>
             </View>
-            <CallActionBox />
+            <CallActionBox onHangupPress={() => { }} />
         </View>
     )
 }
